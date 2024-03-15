@@ -1,0 +1,12 @@
+[package]
+name = "counter"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+odra = { git = "https://github.com/odradev/odra.git", branch = "release/0.7.1", features = [], default-features = false }
+
+[features]
+default = ["mock-vm"]
+mock-vm = ["odra/mock-vm"]
+casper = ["odra/casper"]
