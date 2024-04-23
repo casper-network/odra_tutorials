@@ -197,18 +197,29 @@ pub fn get_balance(self) -> U512 {
 
 This entrypoint simply obtains the balance and returns it to the caller, and if fails, reverts with `CouldntGetBalance`. Omitting a semicolon at the end of the statement returns the value produced, removing the need for a `return` statement.
 
-## Direct Deposits
+## Calling Payable Entrypoint from Client
 
-When invoking a payable entrypoint from a client, such as an SDK, you'll need to deploy a piece of session code that acquires the contract's purse and fills it with the amount you're providing. This proxy caller can be found [here](https://github.com/odradev/odra/tree/release/1.0.0/odra-casper/proxy-caller).
+When invoking a payable entrypoint from a client, such as an SDK, you'll need to deploy a piece of session code that acquires the contract's purse and fills it with the amount you're providing. This proxy WASM can be found [here](https://github.com/odradev/odra/tree/release/1.0.0/odra-casper/proxy-caller).
 
 You'll also need to provide the following runtime arguments:
 
-```rust
-args: Uint8Array // Runtime Arguments passed to the contract
-amount: U512
-attached_value: U512 // Should be the same as amount
-entry_point: String
-contract_package_hash: CLByteArray // Contract package hash of the target contract
+```javascript
+const contractPackageHashBytes = new CLByteArray(decodeBase16(TARGET_CONTRACT_PKG_HASH_STR));
+
+const args_bytes: Uint8Array = RuntimeArgs.fromMap({
+   // Arguments forwarded to the target contract
+}).toBytes().unwrap();
+const serialized_args = new CLList(Array.from(args_bytes).map(value => new CLU8(value)));
+
+const args = RuntimeArgs.fromMap({
+  amount: CLValueBuilder.u512(csprToMotes(50)), // Amount paid to target contract entrypoint
+	attached_value: CLValueBuilder.u512(csprToMotes(50)), // Should be the same as amount
+	entry_point: CLValueBuilder.string('entrypoint'), // Target contract entrypoint
+	contract_package_hash: contractPackageHashBytes, // Target contract package hash
+	args: serialized_args // Runtime Arguments passed to the contract
+});
+
+// Install the Proxy WASM
 ```
 
 ## Testing
