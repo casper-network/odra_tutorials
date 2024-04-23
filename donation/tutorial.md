@@ -12,7 +12,7 @@ Initialize a new Odra project:
 cargo odra new --name donation -t blank
 ```
 
-Open *donation/src/lib.rs* in an editor.
+Open _donation/src/lib.rs_ in an editor.
 
 Begin the contract by importing necessary dependencies. Start with the Odra [prelude](https://docs.rs/odra/latest/odra/prelude) which contains a set of modules, macros, structs, enums and traits that are commonly used in smart contract development with Odra:
 
@@ -94,7 +94,7 @@ The smart contract can now be implemented. Start by using `impl` to implement th
 ```rust
 #[odra::module]
 impl Donation {
-  
+
 }
 ```
 
@@ -118,7 +118,7 @@ Next, create the `donate` entrypoint, which is expected to be payable, so should
 ```rust
 #[odra(payable)]
 pub fn donate(&mut self) {
-        
+
 }
 ```
 
@@ -197,6 +197,20 @@ pub fn get_balance(self) -> U512 {
 
 This entrypoint simply obtains the balance and returns it to the caller, and if fails, reverts with `CouldntGetBalance`. Omitting a semicolon at the end of the statement returns the value produced, removing the need for a `return` statement.
 
+## Direct Deposits
+
+When invoking a payable entrypoint from a client, such as an SDK, you'll need to deploy a piece of session code that acquires the contract's purse and fills it with the amount you're providing. This proxy caller can be found [here](https://github.com/odradev/odra/tree/release/1.0.0/odra-casper/proxy-caller).
+
+You'll also need to provide the following runtime arguments:
+
+```rust
+args: Uint8Array // Runtime Arguments passed to the contract
+amount: U512
+attached_value: U512 // Should be the same as amount
+entry_point: String
+contract_package_hash: CLByteArray // Contract package hash of the target contract
+```
+
 ## Testing
 
 With the contract now complete, tests can be written. Start by opening a new module `tests` annotated with the Rust attribute `#[cfg(test)]`:
@@ -204,7 +218,7 @@ With the contract now complete, tests can be written. Start by opening a new mod
 ```rust
 #[cfg(test)]
 mod tests {
-  
+
 }
 ```
 
@@ -217,9 +231,9 @@ use odra::host::{Deployer, HostRef, NoArgs};
 
 `use super::*;` is used to import the `Donation` contract, and the imports from the `host` module consist of:
 
-* `Deployer`: A trait that exposes the `deploy` function for deploying the contract to the mock VM.
-* `HostRef`: A trait that exposes references to the host, allowing for the invocation of `Donation` entrypoints.
-* `NoArgs`: A struct that can be used in place of initialization arguments for deployment of the contract. Used because the `Donation` contract doesn't require constructor arguments.
+- `Deployer`: A trait that exposes the `deploy` function for deploying the contract to the mock VM.
+- `HostRef`: A trait that exposes references to the host, allowing for the invocation of `Donation` entrypoints.
+- `NoArgs`: A struct that can be used in place of initialization arguments for deployment of the contract. Used because the `Donation` contract doesn't require constructor arguments.
 
 ### Donation Test
 
@@ -228,7 +242,7 @@ Create the first test, `donate`, annotated with the `#[test]` attribute:
 ```rust
 #[test]
 fn donate() {
-  
+
 }
 ```
 
@@ -265,7 +279,7 @@ contract
 	.expect("Donation should be successful");
 ```
 
-*Note: The `HostRef` creates `try_` functions for each entrypoint, which return a `Result<(T), OdraError>`.*
+_Note: The `HostRef` creates `try_`functions for each entrypoint, which return a`Result<(T), OdraError>`.\_
 
 Assert that the new value of the calling account is `donation_amount` less than its original balance:
 
@@ -295,7 +309,7 @@ For the next and final test of this tutorial, create the test `withdraw`:
 ```rust
 #[test]
 fn withdraw() {
-  
+
 }
 ```
 
@@ -313,7 +327,7 @@ let mut contract = DonationHostRef::deploy(&env, NoArgs);
 
 Since at the beginning of each test, the contract is deployed anew, it will always start with a balance of `0`, so a donation must be made before a (meaningful) withdrawal can be done.
 
-*Note: Technically a withdrawal of 0 tokens could be tested.*
+_Note: Technically a withdrawal of 0 tokens could be tested._
 
 Specify the donation amount:
 
