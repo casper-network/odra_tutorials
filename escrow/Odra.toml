@@ -1,2 +1,2 @@
-#[[contracts]]
-#fqn = "mycontract::Mycontract"
+[[contracts]]
+fqn = "escrow::Escrow"

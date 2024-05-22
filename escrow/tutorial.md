@@ -8,11 +8,11 @@ Escrow contracts are common and useful agreements for arbitrating arrangements b
 
 There are many ways to prepare escrow agreements. This contract will assume the following terms:
 
-* There is one depositor, one beneficiary, and one arbiter, which must all be unique from one another.
-* The deploying account may not be the depositor, beneficiary, or arbiter.
-* The depositor must deposit funds, and the beneficiary must provide an off-chain good before the escrow can be settled by the arbiter.
-* The arbiter can reject the agreement, returning funds to the depositor.
-* Once the escrow agreement is settled, the deposited funds are sent to the beneficiary.
+- There is one depositor, one beneficiary, and one arbiter, which must all be unique from one another.
+- The deploying account may not be the depositor, beneficiary, or arbiter.
+- The depositor must deposit funds, and the beneficiary must provide an off-chain good before the escrow can be settled by the arbiter.
+- The arbiter can reject the agreement, returning funds to the depositor.
+- Once the escrow agreement is settled, the deposited funds are sent to the beneficiary.
 
 This contract could be altered or extended to change the terms of the agreement in order to support multiple accounts, specific conditions, two on-chain provisions, etc.
 
@@ -24,9 +24,9 @@ Initialize a new Odra project:
 cargo odra new --name escrow -t blank
 ```
 
-*Note: The `-t blank` flag will create the contract as a blank template.*
+_Note: The `-t blank` flag will create the contract as a blank template._
 
-Open *escrow/src/lib.rs* in an editor.
+Open _escrow/src/lib.rs_ in an editor.
 
 Begin by importing the required Odra types:
 
@@ -34,13 +34,6 @@ Begin by importing the required Odra types:
 use odra::casper_types::U512;
 use odra::prelude::*;
 use odra::{Address, Event, Var};
-```
-
-To efficiently detect intent to use unallowed accounts, you can use `HashSet` from the `std` library:
-
-```rust
-extern crate std;
-use std::collections::HashSet;
 ```
 
 ## User Errors
@@ -122,27 +115,27 @@ pub struct Escrow {
 
 In this implementation, the objects reference the following:
 
-* `arbiter`:
+- `arbiter`:
 
   The account arbitrating the escrow agreement.
 
-* `depositor`:
+- `depositor`:
 
   The account responsible for depositing the funds; the "buying" account.
 
-* `beneficiary`:
+- `beneficiary`:
 
   The account receiving the funds; the "selling" account.
 
-* `balance`:
+- `balance`:
 
   The balance of the contract. Tracks the amount owned by the contract at any given time.
 
-* `good_provided`:
+- `good_provided`:
 
   Tracks whether the beneficiary has provided the off-chain good to the arbiter.
 
-* `deposit_amount`:
+- `deposit_amount`:
 
   The amount the depositor must deposit.
 
@@ -153,7 +146,7 @@ To begin writing the smart contract's functionality, implement the `Escrow` modu
 ```rust
 #[odra::module]
 impl Escrow {
-	 
+
 }
 ```
 
@@ -173,14 +166,14 @@ pub fn init(
 
 The `&mut self` parameter allows us to access and mutate `self` and its objects. The `arbiter`, `depositor`, and `beneficiary` are three unique Casper accounts defined by the contract deployer. The `deposit_amount` is also defined by the contract deployer, and will be the amount the depositor must deposit to initiate the escrow.
 
-Within the constructor, start by ensuring that the contract deployer, `arbiter`, `depositor`, and `beneficiary` are all unique accounts. This can be done efficiently by inserting each into a `HashSet`, if an `Address` is not able to be inserted, it is not unique, and the contract will revert with `IllegalAccounts`:
+Within the constructor, start by ensuring that the contract deployer, `arbiter`, `depositor`, and `beneficiary` are all unique accounts. For this example a nested for-loop will be used to check each `Address` against the next in the vector:
 
 ```rust
-let all_accounts = vec![self.env().caller(), arbiter, depositor, beneficiary];
-let mut accounts_set = HashSet::new();
-for account in all_accounts {
-	if !accounts_set.insert(account) {
-		self.env().revert(Error::IllegalAccounts);
+for i in 0..all_accounts.len() {
+    for j in (i + 1)..all_accounts.len() {
+        if all_accounts[i] == all_accounts[j] {
+            self.env().revert(Error::IllegalAccounts);
+        }
 	}
 }
 ```
@@ -227,7 +220,7 @@ The `deposit` entrypoint is to be called by the depositor and initiates the escr
 ```rust
 #[odra(payable)]
 pub fn deposit(&mut self) {
-  
+
 }
 ```
 
@@ -294,7 +287,7 @@ Create the `settle` entrypoint:
 
 ```rust
 pub fn settle(&mut self) {
-        
+
 }
 ```
 
@@ -407,7 +400,7 @@ To get started writing tests, create a new module `tests` and annotate it with t
 ```rust
 #[cfg(test)]
 mod tests {
-  
+
 }
 ```
 
@@ -434,7 +427,7 @@ Create a new test function `successful_escrow`:
 ```rust
 #[test]
 fn successful_escrow() {
-  
+
 }
 ```
 
@@ -477,7 +470,7 @@ let mut contract = EscrowHostRef::deploy(&env, init_args);
 
 A mutable instance is required as entrypoints we call will make adjustments to values within `contract`.
 
-*Note: The deployer in this case is test account 0, as `env.set_caller()` was never called with another account. Remember that test accounts 1, 2, and 3 are reserved for the arbiter, depositor, and beneficiary respectively*
+_Note: The deployer in this case is test account 0, as `env.set_caller()` was never called with another account. Remember that test accounts 1, 2, and 3 are reserved for the arbiter, depositor, and beneficiary respectively_
 
 Get the initial balances of the depositor and beneficiary, so we can test their expected balances against their originals later in the test:
 
@@ -501,7 +494,7 @@ contract
 	.expect("Deposit should be successful");
 ```
 
-*Note: `try_{{entrypoint}}` is created by `EscrowHostRef` for every entrypoint, which returns a `Result<(), OdraError>` allowing you to test proper and improper execution.*
+_Note: `try_{{entrypoint}}`is created by`EscrowHostRef`for every entrypoint, which returns a`Result<(), OdraError>` allowing you to test proper and improper execution.\_
 
 Check that the `DepositMade` event was emitted with the correct values:
 

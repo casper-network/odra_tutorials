@@ -1,5 +1,5 @@
-extern crate std;
-use std::collections::HashSet;
+//extern crate std;
+//use std::collections::HashSet;
 
 use odra::casper_types::U512;
 use odra::prelude::*;
@@ -67,10 +67,11 @@ impl Escrow {
         deposit_amount: U512,
     ) {
         let all_accounts = vec![self.env().caller(), arbiter, depositor, beneficiary];
-        let mut accounts_set = HashSet::new();
-        for account in all_accounts {
-            if !accounts_set.insert(account) {
-                self.env().revert(Error::IllegalAccounts);
+        for i in 0..all_accounts.len() {
+            for j in (i + 1)..all_accounts.len() {
+                if all_accounts[i] == all_accounts[j] {
+                    self.env().revert(Error::IllegalAccounts);
+                }
             }
         }
         self.arbiter.set(arbiter);
