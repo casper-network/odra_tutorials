@@ -1,0 +1,32 @@
+[package]
+name = "escrow"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+odra = { version = "0.9.1", features = [], default-features = false }
+odra-modules = "0.9.1"
+odra_cep47 = { git = "https://github.com/odradev/odra-cep47.git" }
+
+[dev-dependencies]
+odra-test = { version = "0.9.1", features = [], default-features = false }
+
+[build-dependencies]
+odra-build = { version = "0.9.1", features = [], default-features = false }
+
+[[bin]]
+name = "escrow_build_contract"
+path = "bin/build_contract.rs"
+test = false
+
+[[bin]]
+name = "escrow_build_schema"
+path = "bin/build_schema.rs"
+test = false
+
+[profile.release]
+codegen-units = 1
+lto = true
+
+[profile.dev.package."*"]
+opt-level = 3
