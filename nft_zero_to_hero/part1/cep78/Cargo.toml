@@ -1,0 +1,42 @@
+[package]
+name = "cep78"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+odra = { version = "1.0.0-rc.1", features = [], default-features = false }
+odra-modules = "1.0.0-rc.1"
+odra-casper-livenet-env = { version = "1.0.0-rc.1", optional = true }
+
+[dev-dependencies]
+odra-test = { version = "1.0.0-rc.1", features = [], default-features = false }
+
+[build-dependencies]
+odra-build = { version = "1.0.0-rc.1", features = [], default-features = false }
+
+[features]
+default = []
+livenet = ["odra-casper-livenet-env"]
+
+[[bin]]
+name = "cep78_build_contract"
+path = "bin/build_contract.rs"
+test = false
+
+[[bin]]
+name = "cep78_build_schema"
+path = "bin/build_schema.rs"
+test = false
+
+[[bin]]
+name = "cep78_livenet"
+path = "bin/cep78_livenet.rs"
+required-features = ["livenet"]
+test = false
+
+[profile.release]
+codegen-units = 1
+lto = true
+
+[profile.dev.package."*"]
+opt-level = 3
