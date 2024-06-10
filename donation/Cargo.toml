@@ -4,13 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-odra = { version = "0.8.1", features = [], default-features = false }
+odra = { version = "1.0.0", features = [], default-features = false }
 
 [dev-dependencies]
-odra-test = { version = "0.8.1", features = [], default-features = false }
+odra-test = { version = "1.0.0", features = [], default-features = false }
 
 [build-dependencies]
-odra-build = { version = "0.8.1", features = [], default-features = false }
+odra-build = { version = "1.0.0", features = [], default-features = false }
 
 [[bin]]
 name = "donation_build_contract"
