@@ -34,7 +34,6 @@ use odra::casper_types::U512;
 use odra::prelude::*;
 use odra::Address;
 use odra::Mapping;
-use odra::OdraError;
 use odra::Var;
 ```
 
@@ -44,7 +43,6 @@ use odra::Var;
 * `odra::prelude::*`: This imports essential functionalities frequently used in Odra development, including functions for interacting with the environment and basic data structures.
 * `odra::Address`: This defines the `Address` type, representing account addresses on the Casper blockchain where CSPR tokens can be stored and transferred.
 * `odra::Mapping`: This provides the `Mapping` data structure, enabling us to efficiently store key-value pairs within the contract. In our case, it will be used to manage recovery guardian information.
-* `odra::OdraError`: This dependency allows defining custom error types for the contract.
 * `odra::Var`: This provides the `Var` type, representing variables that can be persistently stored within the contract's memory.
 
 ### 2. Defining Contract Errors
@@ -52,7 +50,7 @@ use odra::Var;
 The `Error` enum in the code snippet outlines potential errors that might occur during contract interactions. These errors provide informative messages to users, helping them understand issues like insufficient balance or unauthorized actions.
 
 ```rust
-#[derive(OdraError)]
+#[odra::odra_error]
 /// Errors that may occur during the contract execution.
 pub enum Error {
     /// Insufficient balance for the requested transfer
