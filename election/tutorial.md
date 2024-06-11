@@ -67,10 +67,10 @@ In this implementation, the objects reference the following:
 
 ## User Errors
 
-Preparing custom user errors is recommended and can provide insight when debugging or experiencing issues. Odra has an enum `OdraError` that can be derived to create custom errors. For this example, define the following errors:
+Preparing custom user errors is recommended and can provide insight when debugging or experiencing issues. Odra provides an attribute `odra_error` that can be used to create custom errors. For this example, define the following errors:
 
 ```rust
-#[derive(OdraError)]
+#[odra::odra_error]
 pub enum Error {
     VotingEnded = 0,
     VoterAlreadyVoted = 1,
