@@ -4,15 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-odra = { version = "0.9.1", features = [], default-features = false }
-odra-modules = "0.9.1"
-odra_cep47 = { git = "https://github.com/odradev/odra-cep47.git" }
+odra = { version = "1.0.0", features = [], default-features = false }
+odra-modules = "1.0.0"
+# odra_cep47 = { git = "https://github.com/odradev/odra-cep47.git" }
 
 [dev-dependencies]
-odra-test = { version = "0.9.1", features = [], default-features = false }
+odra-test = { version = "1.0.0", features = [], default-features = false }
 
 [build-dependencies]
-odra-build = { version = "0.9.1", features = [], default-features = false }
+odra-build = { version = "1.0.0", features = [], default-features = false }
 
 [[bin]]
 name = "escrow_build_contract"

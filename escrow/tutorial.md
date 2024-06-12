@@ -33,7 +33,7 @@ Begin by importing the required Odra types:
 ```rust
 use odra::casper_types::U512;
 use odra::prelude::*;
-use odra::{Address, Event, Var};
+use odra::{Address, Var};
 ```
 
 ## User Errors
@@ -71,25 +71,25 @@ pub enum Account {
 By creating custom events and emitting them in specific situations, listeners of the contract's event stream can pick up on and react to actions taken on the contract. Add the following four events to the contract:
 
 ```rust
-#[derive(Event)]
+#[odra::event]
 pub struct DepositMade {
     pub depositor: Address,
     pub amount: U512,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct GoodProvided {
     beneficiary: Address,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct EscrowSettled {
     pub depositor: Address,
     pub beneficiary: Address,
     pub amount_paid: U512,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct EscrowRejected {
     pub depositor: Address,
     pub beneficiary: Address,
@@ -102,7 +102,10 @@ pub struct EscrowRejected {
 Before implementing the contract, a module definition must first be created, including all of the objects stored by the contract:
 
 ```rust
-#[odra::module]
+#[odra::module(
+    events = [DepositMade, GoodProvided,EscrowSettled,EscrowRejected],
+    errors = Error
+)]
 pub struct Escrow {
     arbiter: Var<Address>,
     depositor: Var<Address>,

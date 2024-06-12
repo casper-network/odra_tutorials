@@ -4,18 +4,16 @@ extern crate alloc;
 
 use alloc::vec::Vec;
 use odra::{prelude::*, UnwrapOrRevert};
-use odra::{Address, Mapping, OdraError, Var};
-extern crate std;
-use std::println;
+use odra::{Address, Mapping, Var};
 
-#[odra::module]
+#[odra::module(errors = Error)]
 pub struct Election {
     end_block: Var<u64>,
     candidate_votes: Mapping<String, u32>,
     voters: Mapping<Address, bool>,
 }
 
-#[derive(OdraError)]
+#[odra::odra_error]
 pub enum Error {
     VotingEnded = 0,
     VoterAlreadyVoted = 1,
@@ -52,8 +50,8 @@ impl Election {
         self.voters.set(&caller, true);
     }
 
-    pub fn get_candidate_votes(&self, candidate: &String) -> u32 {
-        self.candidate_votes.get_or_default(candidate)
+    pub fn get_candidate_votes(&self, candidate: String) -> u32 {
+        self.candidate_votes.get_or_default(&candidate)
     }
 }
 
