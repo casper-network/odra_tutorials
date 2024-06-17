@@ -153,13 +153,11 @@ impl Wallet {
 #[cfg(test)]
 mod tests {
 
-    use super::{Error, WalletHostRef, WalletInitArgs};
-    use odra::casper_types::U512;
-    use odra::host::Deployer;
-    use odra::host::HostEnv;
-    use odra::host::HostRef;
     use odra::prelude::*;
+    use odra::host::{HostEnv, HostRef, Deployer};
+	use super::{Error, WalletHostRef, WalletInitArgs};
     use odra::Address;
+	use odra::casper_types::U512;
 
     struct Accounts {
         alice: Address,
