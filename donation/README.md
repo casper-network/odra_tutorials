@@ -1,31 +1,8 @@
-# donation
+# Donation Contract with Odra
 
-## Usage
-It's recommended to install 
-[cargo-odra](https://github.com/odradev/cargo-odra) first.
+In this tutorial, you will learn how to create a donation contract using Odra. This smart contract can accept funds from anyone, and funds can be withdrawn by the original deployer. The donation contract will introduce two new concepts in Odra development, not covered in the previous tutorials: 
 
-### Build
+- payable entrypoints 
+- emitting events 
 
-```
-$ cargo odra build
-```
-To build a wasm file, you need to pass the -b parameter. 
-The result files will be placed in `${project-root}/wasm` directory.
-
-```
-$ cargo odra build -b casper
-```
-
-### Test
-To run test on your local machine, you can basically execute the command:
-
-```
-$ cargo odra test
-```
-
-To test actual wasm files against a backend, 
-you need to specify the backend passing -b argument to `cargo-odra`.
-
-```
-$ cargo odra test -b casper
-```
+[To the tutorial](tutorial.md)
