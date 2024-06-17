@@ -1,31 +1,12 @@
-# project
+# Election 
 
-## Usage
-It's recommended to install 
-[cargo-odra](https://github.com/odradev/cargo-odra) first.
+This tutorial will guide you through the creation of a voting smart contract using Odra. The contract will be built assuming the following principles:
 
-### Build
+* The deployer can specify candidates and a final voting time in the constructor.
+* The final voting time is denominated in block height.
+* The deployer cannot modify the candidates or end time after deployment.
+* Any account, besides the deployer, may make one vote for any candidate they please.
 
-```
-$ cargo odra build
-```
-To build a wasm file, you need to pass the -b parameter. 
-The result files will be placed in `${project-root}/wasm` directory.
+The contract could be extended to allow for modifications to candidates, end time, and voting capabilities, but this tutorial avoids these functionalities in the interest of simplicity.
 
-```
-$ cargo odra build -b casper
-```
-
-### Test
-To run test on your local machine, you can basically execute the command:
-
-```
-$ cargo odra test
-```
-
-To test actual wasm files against a backend, 
-you need to specify the backend passing -b argument to `cargo-odra`.
-
-```
-$ cargo odra test -b casper
-```
+[To the tutorial](tutorial.md)

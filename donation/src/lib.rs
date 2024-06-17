@@ -4,26 +4,29 @@ extern crate alloc;
 
 use odra::casper_types::U512;
 use odra::prelude::*;
-use odra::{Address, Event, OdraError, Var};
+use odra::{Address, Var};
 
-#[derive(Event)]
+#[odra::event]
 pub struct DonationReceived {
     pub donor: Address,
     pub amount: U512,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct Withdrawal {
     pub amount: U512,
 }
 
-#[derive(OdraError)]
+#[odra::odra_error]
 pub enum Error {
     UnauthorizedToWithdraw = 0,
     CouldntGetBalance = 1,
 }
 
-#[odra::module]
+#[odra::module(
+    events = [DonationReceived, Withdrawal],
+    errors = Error
+)]
 pub struct Donation {
     balance: Var<U512>,
     owner: Var<Address>,

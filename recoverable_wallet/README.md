@@ -1,31 +1,10 @@
-# recoverable_wallet
+# Recoverable Wallet 
 
-## Usage
-It's recommended to install 
-[cargo-odra](https://github.com/odradev/cargo-odra) first.
+ This tutorial creates a smart contract that behaves like a personal wallet with some additional features on top, demonstrating the concept of account abstraction. Some features enabled by this concept include:  
+  - Social recovery using trusted addresses to recover the account in case you lost it
+  - Daily transaction limits
+  - Allow lists for transfers exceding a given amount of tokens 
+  
+ In this example we implement the social recovery feature. Where a user can set a list of trusted addresses (`recovery_guardians`) that in case of a lost key to this wallet can recover the funds and transfer them to a new account. 
 
-### Build
-
-```
-$ cargo odra build
-```
-To build a wasm file, you need to pass the -b parameter. 
-The result files will be placed in `${project-root}/wasm` directory.
-
-```
-$ cargo odra build -b casper
-```
-
-### Test
-To run test on your local machine, you can basically execute the command:
-
-```
-$ cargo odra test
-```
-
-To test actual wasm files against a backend, 
-you need to specify the backend passing -b argument to `cargo-odra`.
-
-```
-$ cargo odra test -b casper
-```
+ [To the tutorial](tutorial.md)

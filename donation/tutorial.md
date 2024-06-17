@@ -29,7 +29,7 @@ use odra::casper_types::U512;
 Lastly, import the following Odra datatypes:
 
 ```rust
-use odra::{Address, Event, OdraError, Var};
+use odra::{Address, Var};
 ```
 
 ## Event Declaration
@@ -39,21 +39,21 @@ As mentioned in the introduction, this smart contract will emit events. It will 
 Before emitting these events, they need to be defined. Begin with the `DonationReceived` event:
 
 ```rust
-#[derive(Event)]
+#[odra::event]
 pub struct DonationReceived {
     pub donor: Address,
     pub amount: U512,
 }
 ```
 
-Notice that the event is represented as a public struct, annotated with the `derive` attribute, deriving `Event`. The event could also derive `PartialEq`, `Eq`, and `Debug`, which is in many cases useful for writing tests, but unnecessary in this case.
+Notice that the event is represented as a public struct, annotated with the `#[odra::event]` attribute. The event could also derive `PartialEq`, `Eq`, and `Debug`, which is in many cases useful for writing tests, but unnecessary in this case.
 
 The event contains two parameters, `donor` and `amount`, which specify the donor's public key and the amount they donated, respectively.
 
 Next, define the `Withdrawal` event, which only consists of one parameter, `amount`, as the contract deployer is always the withdrawer:
 
 ```rust
-#[derive(Event)]
+#[odra::event]
 pub struct Withdrawal {
     pub amount: U512,
 }
@@ -61,10 +61,10 @@ pub struct Withdrawal {
 
 ## Errors
 
-It is also useful to define user errors that can be thrown if unexpected behavior is encountered. Do this by defining a new public `enum` `Error`, that derives `OdraError`:
+It is also useful to define user errors that can be thrown if unexpected behavior is encountered. Do this by defining a new public `enum` `Error`, and annotate it with the `#[odra::error]` attribute:
 
 ```rust
-#[derive(OdraError)]
+#[odra::error]
 pub enum Error {
     UnauthorizedToWithdraw = 0,
     CouldntGetBalance = 1,
@@ -76,9 +76,13 @@ In this case, two errors are defined, `UnauthorizedToWithdraw`, which the contra
 ## Interface
 
 You can now create an Odra module that will expose the variables used in the smart contract:
+To register errors and events , we need to add their inner attributes to the struct's #[odra::module] attribute and pass the error and event types as the values. The registered errors and events will be present in the contract schema.
 
 ```rust
-#[odra::module]
+#[odra::module(
+    events = [DonationReceived, Withdrawal],
+    errors = Error
+)]
 pub struct Donation {
     balance: Var<U512>,
     owner: Var<Address>,

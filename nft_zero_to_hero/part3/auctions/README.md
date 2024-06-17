@@ -1,4 +1,4 @@
-# cep78
+# auctions
 
 ## Usage
 It's recommended to install 

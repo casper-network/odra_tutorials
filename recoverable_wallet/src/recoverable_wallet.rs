@@ -2,10 +2,9 @@ use odra::casper_types::U512;
 use odra::prelude::*;
 use odra::Address;
 use odra::Mapping;
-use odra::OdraError;
 use odra::Var;
 
-#[derive(OdraError)]
+#[odra::odra_error]
 /// Errors that may occur during the contract execution.
 pub enum Error {
     /// Insufficient balance for the requested transfer
@@ -22,7 +21,7 @@ pub enum Error {
     InvalidThreshold = 6,
 }
 
-#[odra::module]
+#[odra::module(errors = Error)]
 pub struct Wallet {
     /// Address of the account's owner
     owner: Var<Address>,

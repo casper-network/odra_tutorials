@@ -1,31 +1,10 @@
-# fondant_x_odra
+## Odra x Fondant
 
-## Usage
-It's recommended to install 
-[cargo-odra](https://github.com/odradev/cargo-odra) first.
+Bridging the Gap for Casper Smart Contract Development & Testing
 
-### Build
+Odra is the recommended framework for building smart contracts on the Casper Network. Fondant, a new and exciting tool, simplifies running a local Casper network and testing contracts with its intuitive UI. As both tools evolve, we can expect closer integration in the future.
 
-```
-$ cargo odra build
-```
-To build a wasm file, you need to pass the -b parameter. 
-The result files will be placed in `${project-root}/wasm` directory.
+This guide will demonstrate how to combine Odra and Fondant today. We'll create a simple Odra contract, deploy it and test it on a local network using livenet. We'll also provide a script to fetch secret keys from Fondant for seamless interaction.
 
-```
-$ cargo odra build -b casper
-```
+[To the tutorial](tutorial.md)
 
-### Test
-To run test on your local machine, you can basically execute the command:
-
-```
-$ cargo odra test
-```
-
-To test actual wasm files against a backend, 
-you need to specify the backend passing -b argument to `cargo-odra`.
-
-```
-$ cargo odra test -b casper
-```

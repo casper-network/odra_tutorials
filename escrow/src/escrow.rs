@@ -3,7 +3,7 @@
 
 use odra::casper_types::U512;
 use odra::prelude::*;
-use odra::{Address, Event, Var};
+use odra::{Address, Var};
 
 #[odra::odra_error]
 pub enum Error {
@@ -22,32 +22,35 @@ pub enum Account {
     Arbiter,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct DepositMade {
     pub depositor: Address,
     pub amount: U512,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct GoodProvided {
     beneficiary: Address,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct EscrowSettled {
     pub depositor: Address,
     pub beneficiary: Address,
     pub amount_paid: U512,
 }
 
-#[derive(Event)]
+#[odra::event]
 pub struct EscrowRejected {
     pub depositor: Address,
     pub beneficiary: Address,
     pub amount_returned: U512,
 }
 
-#[odra::module]
+#[odra::module(
+    events = [DepositMade, GoodProvided,EscrowSettled,EscrowRejected],
+    errors = Error
+)]
 pub struct Escrow {
     arbiter: Var<Address>,
     depositor: Var<Address>,
