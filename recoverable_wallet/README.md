@@ -1,4 +1,4 @@
-# Recoverable Wallet contract with Odra
+# Recoverable Wallet 
 
  This tutorial creates a smart contract that behaves like a personal wallet with some additional features on top, demonstrating the concept of account abstraction. Some features enabled by this concept include:  
   - Social recovery using trusted addresses to recover the account in case you lost it

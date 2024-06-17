@@ -1,4 +1,4 @@
-# Election Contract with Odra
+# Election 
 
 This tutorial will guide you through the creation of a voting smart contract using Odra. The contract will be built assuming the following principles:
 
